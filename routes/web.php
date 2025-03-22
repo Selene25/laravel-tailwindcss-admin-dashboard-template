@@ -90,5 +90,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/save-major', [MajorController::class, 'store'])->name('save.major');
 
     Route::get('/majors', [MajorController::class, 'index'])->name('majors.index');
-
+    Route::post('/check-major', [MajorController::class, 'checkMajor']);
+    
 });

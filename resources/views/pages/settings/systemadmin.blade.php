@@ -32,6 +32,8 @@
             <x-systemadmin.systemadmin-card-05 />
 
         </div>
-
+        <div id="toastNotification" class="hidden fixed bottom-5 right-5 bg-gray-900 text-white px-6 py-3 rounded-md shadow-lg transition-opacity duration-300">
+            <span id="toastMessage"></span>
+        </div>
     </div>
 </x-app-layout>

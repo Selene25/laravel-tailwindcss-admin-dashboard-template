@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
+
 class MajorController extends Controller
 {
     public function index()
@@ -32,5 +33,11 @@ class MajorController extends Controller
         ]);
 
         return response()->json(['message' => 'Major saved successfully!'], 200);
+    }
+
+    public function checkMajor(Request $request)
+    {
+        $exists = DB::table('tbl_major')->where('major', $request->major)->exists();
+        return response()->json(['exists' => $exists]);
     }
 }

@@ -8,37 +8,54 @@
             </button>
         </div>
     </header>
-   
+
     <div class="p-3">
         <div class="overflow-x-auto">
-            <table class="table-auto w-full">
-                <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50">
-                    <tr>
-                        <th class="p-2 whitespace-nowrap">Major</th>
-                        <th class="p-2 whitespace-nowrap">Created By</th>
-                        <th class="p-2 whitespace-nowrap">Created At</th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
-                @if(isset($majors))
-                    @foreach ($majors as $major)
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">{{ $major->major }}</td>
-                            <td class="p-2 whitespace-nowrap">{{ $major->user_name }}</td>
-                            <td class="p-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($major->created_at)->format('Y-m-d H:i:s') }}</td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr><td colspan="3" class="text-center text-red-500">No data available.</td></tr>
-                @endif
-                </tbody>
-            </table>
+            <div class="relative">
+                <!-- Scrollable Table Container -->
+                <div class="max-h-80 overflow-y-auto">
+                    <table class="table-auto w-full border-collapse">
+                        <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50 text-left sticky top-0 z-10">
+                            <tr>
+                                <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">#</th>
+                                <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Major</th>
+                                <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Created By</th>
+                                <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-200 dark:divide-gray-700 text-left">
+                            @php
+                                $majors = DB::table('tbl_major')
+                                    ->join('users', 'tbl_major.user_id', '=', 'users.id')
+                                    ->select('tbl_major.*', 'users.fname as user_fname') // Use fname instead of name
+                                    ->get();
+                                $i = 1; 
+                            @endphp
+                            @if($majors->isNotEmpty())
+                                @foreach ($majors as $major)
+                                    <tr>
+                                        <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $i++ }}</td> 
+                                        <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $major->major }}</td>
+                                        <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $major->user_fname }}</td>
+                                        <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ \Carbon\Carbon::parse($major->created_at)->format('F j, Y') }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4" class="text-center p-3 text-red-500 border-b border-gray-300 dark:border-gray-700">No data available.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+
 <!-- Small Modal -->
-<div id="xlModalCard01" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+<div id="xlModalCard01" class="fixed inset-0 hidden dark:text-gray-100 dark:bg-gray-900 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-11/12 sm:w-1/3 p-6">
         <header class="flex justify-between items-center border-b pb-4">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Add a New Major</h2>
@@ -72,6 +89,32 @@
         document.getElementById('xlModalCard01').classList.add('hidden');
     });
 
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Set the message text
+        toastMessage.innerText = message;
+
+        // Apply styles based on the type (success or error)
+        if (type === 'success') {
+            toast.classList.remove('bg-red-600');
+            toast.classList.add('bg-green-600');
+        } else {
+            toast.classList.remove('bg-green-600');
+            toast.classList.add('bg-red-600');
+        }
+
+        // Show the toast
+        toast.classList.remove('hidden');
+        toast.classList.add('opacity-100');
+
+        // Hide the toast after 3 seconds
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 3000);
+    }
+
     function formatInput(input) {
         let value = input.value;
 
@@ -91,12 +134,13 @@
         const majorName = document.getElementById('customerName').value.trim();
 
         if (majorName === '') {
-            alert('Please enter a valid major.');
+            showToast('Please enter a valid major.', 'error');
             return;
         }
 
         try {
-            const response = await fetch('/save-major', {
+            // Check if the major already exists
+            const checkResponse = await fetch('/check-major', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,16 +149,36 @@
                 body: JSON.stringify({ major: majorName })
             });
 
-            if (response.ok) {
-                alert('Major saved successfully!');
+            const checkResult = await checkResponse.json();
+
+            if (checkResult.exists) {
+                showToast('This major already exists. Please enter a unique major.', 'error');
+                return;
+            }
+
+            // Save the new major
+            const saveResponse = await fetch('/save-major', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ major: majorName })
+            });
+
+            if (saveResponse.ok) {
+                showToast('Major saved successfully!', 'success');
                 document.getElementById('xlModalCard01').classList.add('hidden');
                 document.getElementById('customerName').value = '';
+                setTimeout(() => {
+                    location.reload(); // Refresh after showing the toast
+                }, 2000);
             } else {
-                alert('Failed to save major. Please try again.');
+                showToast('Failed to save major. Please try again.', 'error');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            showToast('An error occurred. Please try again.', 'error');
         }
     });
 </script>
