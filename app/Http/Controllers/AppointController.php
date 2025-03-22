@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Crypt;
 
 class AppointController extends Controller
 {
+    public function viewScheduleAppointment($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        // Fetch appointments for the logged-in user
+        $appointments = DB::table('tbl_appointment')
+            ->where('tutor_id', $userId)
+            ->orWhere('tutee_id', Auth::id())
+            ->select('id', 'sched', 'end_session')
+            ->get();
+
+        return view('pages.view-schedule-appointment', compact('user', 'appointments'));
+    }
     public function setScheduleAppointment($userId)
     {
         $user = User::findOrFail($userId);

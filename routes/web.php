@@ -36,7 +36,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('pages/tutor-list');
     })->name('tutor-list');
     
+    Route::get('/view-schedule-appointment/{user}', [AppointController::class, 'viewScheduleAppointment'])->name('view-schedule-appointment');
     Route::get('/set-schedule-appointment/{user}', [AppointController::class, 'setScheduleAppointment'])->name('set-schedule-appointment');
+    Route::post('/save-appointment', [AppointController::class, 'saveAppointment'])->name('save.appointment');
+    Route::get('/check-email', function (Illuminate\Http\Request $request) {
+        $email = $request->query('email');
+        $exists = DB::table('users')->where('email', $email)->exists();
+        return response()->json(['exists' => $exists]);
+    })->name('check.email');
 
     Route::get('/settings/account', function () {
         return view('pages/settings/account');
@@ -100,12 +107,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/majors', [MajorController::class, 'index'])->name('majors.index');
     Route::post('/check-major', [MajorController::class, 'checkMajor']);
 
-    Route::post('/save-appointment', [AppointController::class, 'saveAppointment'])->name('save.appointment');
-    
-    Route::get('/check-email', function (Illuminate\Http\Request $request) {
-        $email = $request->query('email');
-        $exists = DB::table('users')->where('email', $email)->exists();
-        return response()->json(['exists' => $exists]);
-    })->name('check.email');
+   
     
 });
