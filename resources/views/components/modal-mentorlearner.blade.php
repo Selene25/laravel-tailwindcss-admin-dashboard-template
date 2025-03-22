@@ -39,22 +39,19 @@
                                     </svg>
                                 </button>
                                 <div id="dropdown-menu" aria-labelledby="Select Subjects" role="menu" class="absolute left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded shadow-lg hidden z-50">
-                                    <label class="block px-4 py-2 text-gray-900 dark:text-gray-100">
-                                        <input type="checkbox" name="subject[]" value="Math" class="mr-2">
-                                        {{ __('Math') }}
-                                    </label>
-                                    <label class="block px-4 py-2 text-gray-900 dark:text-gray-100">
-                                        <input type="checkbox" name="subject[]" value="Science" class="mr-2">
-                                        {{ __('Science') }}
-                                    </label>
-                                    <label class="block px-4 py-2 text-gray-900 dark:text-gray-100">
-                                        <input type="checkbox" name="subject[]" value="History" class="mr-2">
-                                        {{ __('History') }}
-                                    </label>
-                                    <label class="block px-4 py-2 text-gray-900 dark:text-gray-100">
-                                        <input type="checkbox" name="subject[]" value="English" class="mr-2">
-                                        {{ __('English') }}
-                                    </label>
+                                @php
+                                    $majors = DB::table('tbl_major')->select('major')->get();
+                                @endphp
+                                    @if(isset($majors) && $majors->isNotEmpty())
+                                        @foreach ($majors as $major)
+                                            <label class="block px-4 py-2 text-gray-900 dark:text-gray-100">
+                                                <input type="checkbox" name="subject[]" value="{{ $major->major }}" class="mr-2">
+                                                {{ $major->major }}
+                                            </label>
+                                        @endforeach
+                                    @else
+                                        <p class="px-4 py-2 text-gray-500 dark:text-gray-400">No majors available.</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>

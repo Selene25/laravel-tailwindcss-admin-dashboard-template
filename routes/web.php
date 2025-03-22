@@ -5,6 +5,7 @@ use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MentorLearnerController;
+use App\Http\Controllers\MajorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,18 +36,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/settings/notifications', function () {
         return view('pages/settings/notifications');
     })->name('notifications');  
-    Route::get('/settings/apps', function () {
-        return view('pages/settings/apps');
-    })->name('apps');
-    Route::get('/settings/plans', function () {
-        return view('pages/settings/plans');
-    })->name('plans');      
-    Route::get('/settings/billing', function () {
-        return view('pages/settings/billing');
-    })->name('billing');  
-    Route::get('/settings/feedback', function () {
-        return view('pages/settings/feedback');
-    })->name('feedback');
+    Route::get('/settings/systemadmin', function () {
+        return view('pages/settings/systemadmin');
+    })->name('systemadmin');
 
     Route::get('/component/button', function () {
         return view('pages/component/button-page');
@@ -94,4 +86,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/user/image/{id}', [UserController::class, 'getUserImage'])->name('user.image');
 
     Route::post('/layouts/mentorlearner', [MentorLearnerController::class, 'store'])->name('layouts.mentorlearner');
+
+    Route::post('/save-major', [MajorController::class, 'store'])->name('save.major');
+
+    Route::get('/majors', [MajorController::class, 'index'])->name('majors.index');
+
 });
