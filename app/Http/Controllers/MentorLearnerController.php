@@ -14,14 +14,14 @@ class MentorLearnerController extends Controller
         // Validate the request
         $request->validate([
             'mentorlearner' => 'required',
-            'subject' => 'required|array',
+            'major' => 'required|array',
         ]);
 
         // Save data to the database
         DB::table('tbl_mentorlearner')->insert([
             'user_id' => Auth::id(),
             'mentorlearner' => $request->mentorlearner,
-            'major' => json_encode($request->subject), // Save as JSON
+            'major' => json_encode($request->major), // Save as JSON
             'created_at' => now(),
             'updated_at' => now(),
         ]);

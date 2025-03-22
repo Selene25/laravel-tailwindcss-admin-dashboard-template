@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MentorLearnerController;
 use App\Http\Controllers\MajorController;
+use App\Http\Controllers\AppointController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,9 +34,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/tutor-list', function () {
         return view('pages/tutor-list');
     })->name('tutor-list');
-    Route::get('/view-schedule-appointment', function () {
-        return view('pages/view-schedule-appointment');
-    })->name('view-schedule-appointment');
+    
+    Route::get('/view-schedule-appointment/{user}', [AppointController::class, 'viewScheduleAppointment'])->name('view-schedule-appointment');
 
     Route::get('/settings/account', function () {
         return view('pages/settings/account');
@@ -98,5 +98,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/majors', [MajorController::class, 'index'])->name('majors.index');
     Route::post('/check-major', [MajorController::class, 'checkMajor']);
+
+    Route::post('/save-appointment', [AppointController::class, 'saveAppointment'])->name('save.appointment');
     
 });

@@ -24,28 +24,28 @@
                         </select>
                         <x-error-input :messages="$errors->get('mentorlearner')" class="mt-2" />
                     </div>
-                    <!-- Subject -->
+                    <!-- Major -->
                     <div>
-                        <x-label for="subject" :value="__('Subject')" />
+                        <x-label for="major" :value="__('Major')" />
                         <div class="block mt-1 w-full relative">
                             <div class="border border-gray-300 dark:border-gray-700 rounded-md shadow-sm h-12 relative">
                                 <button type="button" class="w-full h-full text-left px-3 dark:text-gray-300 flex items-center justify-between" 
                                     id="dropdownMenuOffset" 
-                                    aria-labelledby="Select Subjects" 
+                                    aria-labelledby="Select Major" 
                                     onclick="toggleDropdown()">
-                                    Select Subjects
+                                    Select Major
                                     <svg class="w-4 h-4 ml-auto text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
-                                <div id="dropdown-menu" aria-labelledby="Select Subjects" role="menu" class="absolute left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded shadow-lg hidden z-50">
+                                <div id="dropdown-menu" aria-labelledby="Select Major" role="menu" class="absolute left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded shadow-lg hidden z-50">
                                 @php
                                     $majors = DB::table('tbl_major')->select('major')->get();
                                 @endphp
                                     @if(isset($majors) && $majors->isNotEmpty())
                                         @foreach ($majors as $major)
                                             <label class="block px-4 py-2 text-gray-900 dark:text-gray-100">
-                                                <input type="checkbox" name="subject[]" value="{{ $major->major }}" class="mr-2">
+                                                <input type="checkbox" name="major[]" value="{{ $major->major }}" class="mr-2">
                                                 {{ $major->major }}
                                             </label>
                                         @endforeach
@@ -85,7 +85,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            const checkboxes = document.querySelectorAll('input[name="subject[]"]');
+            const checkboxes = document.querySelectorAll('input[name="major[]"]');
             const dropdownButton = document.getElementById('dropdownMenuOffset');
 
             checkboxes.forEach(checkbox => {

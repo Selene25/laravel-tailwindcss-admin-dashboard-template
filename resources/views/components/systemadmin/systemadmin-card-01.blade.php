@@ -55,7 +55,7 @@
 
 
 <!-- Small Modal -->
-<div id="xlModalCard01" class="fixed inset-0 hidden dark:text-gray-100 dark:bg-gray-900 bg-opacity-50 flex items-center justify-center">
+<div id="xlModalCard01" class="hidden fixed inset-0 dark:text-gray-100 dark:bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-11/12 sm:w-1/3 p-6">
         <header class="flex justify-between items-center border-b pb-4">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Add a New Major</h2>
