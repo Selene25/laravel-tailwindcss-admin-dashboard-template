@@ -55,12 +55,11 @@
                     </li>
                     <!-- Tutor List -->
                     <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r @if(in_array(Request::segment(1), ['messages'])){{ 'from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]' }}@endif">
-                        <a class="block text-gray-800 dark:text-gray-100 truncate transition @if(!in_array(Request::segment(1), ['messages'])){{ 'hover:text-gray-900 dark:hover:text-white' }}@endif" href="{{ route('messages') }}">
+                        <a class="block text-gray-800 dark:text-gray-100 truncate transition @if(!in_array(Request::segment(1), ['messages'])){{ 'hover:text-gray-900 dark:hover:text-white' }}@endif" href="{{ route('tutor-list') }}">
                             <div class="flex items-center justify-between">
                                 <div class="grow flex items-center">
                                     <svg class="shrink-0 fill-current @if(in_array(Request::segment(1), ['messages'])){{ 'text-violet-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }}@endif" width="16" height="16" viewBox="0 0 16 16">
-                                        <path d="M13.95.879a3 3 0 0 0-4.243 0L1.293 9.293a1 1 0 0 0-.274.51l-1 5a1 1 0 0 0 1.177 1.177l5-1a1 1 0 0 0 .511-.273l8.414-8.414a3 3 0 0 0 0-4.242L13.95.879ZM11.12 2.293a1 1 0 0 1 1.414 0l1.172 1.172a1 1 0 0 1 0 1.414l-8.2 8.2-3.232.646.646-3.232 8.2-8.2Z" />
-                                        <path d="M10 14a1 1 0 1 0 0 2h5a1 1 0 1 0 0-2h-5Z" />
+                                        <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0Zm0 14.5A6.5 6.5 0 1 1 14.5 8 6.508 6.508 0 0 1 8 14.5ZM8 4a1.5 1.5 0 1 1-1.5 1.5A1.5 1.5 0 0 1 8 4Zm0 3.5a3.5 3.5 0 0 0-3.5 3.5.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5A3.5 3.5 0 0 0 8 7.5Z" />
                                     </svg>
                                     <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Tutor List</span>
                                 </div>

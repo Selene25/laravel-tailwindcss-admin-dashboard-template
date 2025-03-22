@@ -30,6 +30,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('pages/messages');
     })->name('messages');
 
+    Route::get('/tutor-list', function () {
+        return view('pages/tutor-list');
+    })->name('tutor-list');
+    Route::get('/view-schedule-appointment', function () {
+        return view('pages/view-schedule-appointment');
+    })->name('view-schedule-appointment');
+
     Route::get('/settings/account', function () {
         return view('pages/settings/account');
     })->name('account');  

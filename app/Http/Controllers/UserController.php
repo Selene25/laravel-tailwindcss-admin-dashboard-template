@@ -24,4 +24,6 @@ class UserController extends Controller
             'Content-Disposition' => 'inline',
         ]);
     }
+
+
 }
