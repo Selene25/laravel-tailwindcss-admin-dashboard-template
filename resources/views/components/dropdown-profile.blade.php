@@ -9,7 +9,6 @@
         @click.prevent="open = !open"
         :aria-expanded="open"                        
     >
-        <img class="rounded-full" src="{{ route('user.image', Auth::id()) }}" width="40" height="40" alt="{{ Auth::user()->fname }}" />
         <div class="flex items-center truncate">
             <span class="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">{{ Auth::user()->fname }}</span>
             <svg class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500" viewBox="0 0 12 12">

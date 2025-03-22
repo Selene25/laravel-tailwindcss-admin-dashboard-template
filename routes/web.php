@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MentorLearnerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,4 +92,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });    
 
     Route::get('/user/image/{id}', [UserController::class, 'getUserImage'])->name('user.image');
+
+    Route::post('/layouts/mentorlearner', [MentorLearnerController::class, 'store'])->name('layouts.mentorlearner');
 });

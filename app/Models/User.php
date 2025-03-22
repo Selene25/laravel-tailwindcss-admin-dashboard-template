@@ -59,7 +59,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_path',
+        // Remove 'profile_photo_path' from here
     ];
 
     public function getUserdpAttribute()

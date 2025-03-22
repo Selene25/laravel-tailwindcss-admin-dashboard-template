@@ -1,6 +1,14 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
+        <!-- Check if modal should be shown -->
+        @php
+            $showModal = !\DB::table('tbl_mentorlearner')->where('user_id', auth()->id())->exists();
+        @endphp
+
+        <!-- Include modal if necessary -->
+        <x-modal-mentorlearner :showModal="$showModal" />
+
         <!-- Dashboard actions -->
         <div class="sm:flex sm:justify-between sm:items-center mb-8">
 
