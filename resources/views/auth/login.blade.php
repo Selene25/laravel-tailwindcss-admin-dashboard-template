@@ -11,7 +11,7 @@
         <div class="space-y-4">
             <div>
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" type="email" name="email" :value="old('email')" required autofocus />                
+                <x-input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="off"/>                
             </div>
             <div>
                 <x-label for="password" value="{{ __('Password') }}" />
