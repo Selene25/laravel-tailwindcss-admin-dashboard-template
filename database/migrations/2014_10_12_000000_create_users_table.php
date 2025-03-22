@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
-            $table->string('userdp')->nullable(); // Changed from binary to string for storing image paths
+            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
     }

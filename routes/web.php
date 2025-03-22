@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,4 +89,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::fallback(function() {
         return view('pages/utility/404');
     });    
+
+    Route::get('/user/image/{id}', [UserController::class, 'getUserImage'])->name('user.image');
 });

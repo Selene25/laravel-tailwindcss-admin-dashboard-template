@@ -29,7 +29,7 @@ class User extends Authenticatable
         'lname',
         'email',
         'password',
-        'userdp',
+        'profile_photo_path',
     ];
 
     /**
@@ -59,13 +59,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'userdp',
+        'profile_photo_path',
     ];
 
     public function getUserdpAttribute()
     {
-        return $this->userdp_path 
-            ? asset('storage/' . $this->userdp_path) 
-            : asset('default-profile-photo.png');
+        return $this->profile_photo_url 
+            ? asset('storage/' . $this->profile_photo_url) 
+            : asset('images/defaultDP.jpg');
     }
 }
