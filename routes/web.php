@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MentorLearnerController;
 use App\Http\Controllers\MajorController;
 use App\Http\Controllers\AppointController;
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -100,5 +101,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/check-major', [MajorController::class, 'checkMajor']);
 
     Route::post('/save-appointment', [AppointController::class, 'saveAppointment'])->name('save.appointment');
+    
+    Route::get('/check-email', function (Illuminate\Http\Request $request) {
+        $email = $request->query('email');
+        $exists = DB::table('users')->where('email', $email)->exists();
+        return response()->json(['exists' => $exists]);
+    })->name('check.email');
     
 });

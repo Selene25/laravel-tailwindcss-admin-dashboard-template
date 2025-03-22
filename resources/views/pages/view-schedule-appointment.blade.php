@@ -91,25 +91,38 @@
         function addEmail(email) {
             if (email === "" || !validateEmail(email)) return;
 
-            const emailTag = document.createElement("div");
-            emailTag.className = "flex items-center bg-gray-800 text-gray-100 px-3 py-1 rounded-full m-1";
+            // Check if email exists in the database
+            fetch(`{{ route('check.email') }}?email=${email}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        const emailTag = document.createElement("div");
+                        emailTag.className = "flex items-center bg-gray-800 text-gray-100 px-3 py-1 rounded-full m-1";
 
-            const emailText = document.createElement("span");
-            emailText.textContent = email;
+                        const emailText = document.createElement("span");
+                        emailText.textContent = email;
 
-            const removeButton = document.createElement("button");
-            removeButton.innerHTML = "&times;";
-            removeButton.className = "ml-2 text-gray-400 hover:text-red-500";
-            removeButton.onclick = function () {
-                emailContainer.removeChild(emailTag);
-                updateEmailList(); // Update the hidden input
-            };
+                        const removeButton = document.createElement("button");
+                        removeButton.innerHTML = "&times;";
+                        removeButton.className = "ml-2 text-gray-400 hover:text-red-500";
+                        removeButton.onclick = function () {
+                            emailContainer.removeChild(emailTag);
+                            updateEmailList(); // Update the hidden input
+                        };
 
-            emailTag.appendChild(emailText);
-            emailTag.appendChild(removeButton);
-            emailContainer.insertBefore(emailTag, emailInput);
+                        emailTag.appendChild(emailText);
+                        emailTag.appendChild(removeButton);
+                        emailContainer.insertBefore(emailTag, emailInput);
 
-            updateEmailList(); // Update the hidden input
+                        updateEmailList(); // Update the hidden input
+                    } else {
+                        alert("There's no existing user with that email.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error checking email:", error);
+                    alert("An error occurred while checking the email.");
+                });
         }
 
         function updateEmailList() {
