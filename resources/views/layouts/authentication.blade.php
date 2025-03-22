@@ -37,7 +37,7 @@
                     <!-- Header -->
                     <div class="relative z-10">
                         <a class="block" href="{{ route('dashboard') }}">
-                            <img src="{{ asset('images/z.png') }}" alt="logo" class="w-12 h-12">
+                            <img src="{{ asset('images/z.png') }}" alt="logo" class="w-30 h-30">
                         </a>
                     </div>
 

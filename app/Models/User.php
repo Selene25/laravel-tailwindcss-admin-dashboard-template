@@ -24,9 +24,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'idnum',
+        'fname',
+        'lname',
         'email',
         'password',
+        'userdp',
     ];
 
     /**
@@ -56,6 +59,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'userdp',
     ];
+
+    public function getUserdpAttribute()
+    {
+        return $this->userdp_path 
+            ? asset('storage/' . $this->userdp_path) 
+            : asset('default-profile-photo.png');
+    }
 }

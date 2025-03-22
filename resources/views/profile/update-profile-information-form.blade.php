@@ -28,7 +28,7 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    <img src="{{ $this->user->userdp }}" alt="{{ $this->user->fname }}" class="rounded-full h-20 w-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -42,7 +42,7 @@
                     {{ __('Select A New Photo') }}
                 </x-secondary-button>
 
-                @if ($this->user->profile_photo_path)
+                @if ($this->user->userdp)
                     <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         {{ __('Remove Photo') }}
                     </x-secondary-button>
@@ -52,10 +52,17 @@
             </div>
         @endif
 
-        <!-- Name -->
+        <!-- First Name -->
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="name" value="{{ __('Name') }}" />
-            <x-input id="name" type="text" class="mt-1 block w-full" wire:model.live="state.name" required autocomplete="name" />
+            <x-label for="fname" value="{{ __('First Name') }}" />
+            <x-input id="fname" type="text" class="mt-1 block w-full" wire:model.live="state.fname" required autocomplete="fname" />
+            <x-input-error for="name" class="mt-2" />
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="lname" value="{{ __('Last Name') }}" />
+            <x-input id="lname" type="text" class="mt-1 block w-full" wire:model.live="state.lname" required autocomplete="lname" />
             <x-input-error for="name" class="mt-2" />
         </div>
 
