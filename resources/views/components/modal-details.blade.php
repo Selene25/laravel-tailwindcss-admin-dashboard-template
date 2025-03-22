@@ -37,7 +37,7 @@
             <h4 class="text-xl text-gray-900 dark:text-gray-100 font-semibold">Schedule:</h4>
             <p class="mt-2 text-gray-700 dark:text-gray-300">
                 📅 Class schedule details go here...
-                <a href="{{ route('view-schedule-appointment', ['user' => $user->id]) }}">
+                <a href="{{ route('set-schedule-appointment', ['user' => $user->id]) }}">
                     <x-success-button class="ms-3">
                         {{ __('Set Appointment') }}
                     </x-success-button>

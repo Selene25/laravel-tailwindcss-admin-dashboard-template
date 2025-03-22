@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Crypt;
 
 class AppointController extends Controller
 {
-    public function viewScheduleAppointment($userId)
+    public function setScheduleAppointment($userId)
     {
         $user = User::findOrFail($userId);
-        return view('pages.view-schedule-appointment', compact('user'));
+        return view('pages.set-schedule-appointment', compact('user'));
     }
 
     public function saveAppointment(Request $request)
@@ -34,7 +34,7 @@ class AppointController extends Controller
             'created_at' => now(),
         ]);
 
-        return redirect()->route('view-schedule-appointment', ['user' => $request->tutor_id])
+        return redirect()->route('set-schedule-appointment', ['user' => $request->tutor_id])
             ->with('success', 'Appointment saved successfully.');
     }
 }

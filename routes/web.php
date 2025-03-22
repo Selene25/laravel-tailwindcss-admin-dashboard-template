@@ -36,7 +36,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('pages/tutor-list');
     })->name('tutor-list');
     
-    Route::get('/view-schedule-appointment/{user}', [AppointController::class, 'viewScheduleAppointment'])->name('view-schedule-appointment');
+    Route::get('/set-schedule-appointment/{user}', [AppointController::class, 'setScheduleAppointment'])->name('set-schedule-appointment');
 
     Route::get('/settings/account', function () {
         return view('pages/settings/account');
