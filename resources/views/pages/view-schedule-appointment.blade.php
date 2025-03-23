@@ -3,7 +3,7 @@
         <div class="sm:flex sm:justify-between sm:items-center mb-8">
             <!-- Left: Title -->
             <div class="mb-4 sm:mb-0">
-                <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">View Schedule of {{ $user->fname }} {{ $user->lname }}</h1>
+                <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Set Appointment</h1>
             </div>
         </div>
 
@@ -19,14 +19,16 @@
             var calendarEl = document.getElementById('appointmentCalendar-{{ $user->id }}');
 
             if (calendarEl) {
-                var appointments = @json($appointments) || []; // Ensure it's an array even if null
-                var events = appointments.map(appointment => ({
-                    id: appointment.id,
-                    start: appointment.sched.split('T')[0], // Ensure only date part is used
-                    end: appointment.end_session ? appointment.end_session.split('T')[0] : null, // Handle possible null end_session
-                    title: 'Appointed',
-                }));
-                
+                var appointments = @json($appointments); // Safely pass PHP data to JavaScript
+                var events = appointments.map(function(appointment) {
+                    return {
+                        id: appointment.id,
+                        start: appointment.sched,
+                        end: appointment.end_session,
+                        title: 'Appointment',
+                    };
+                });
+
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     selectable: true,

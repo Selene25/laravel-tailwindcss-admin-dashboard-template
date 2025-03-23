@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('tutor-list');
     
     Route::get('/view-schedule-appointment/{user}', [AppointController::class, 'viewScheduleAppointment'])->name('view-schedule-appointment');
+    Route::get('/systemadmin/systemadmin-card-02', [AppointController::class, 'viewScheduleSysadmin'])->name('systemadmin-card-02'); 
     Route::get('/set-schedule-appointment/{user}', [AppointController::class, 'setScheduleAppointment'])->name('set-schedule-appointment');
     Route::post('/save-appointment', [AppointController::class, 'saveAppointment'])->name('save.appointment');
     Route::get('/check-email', function (Illuminate\Http\Request $request) {
@@ -45,6 +46,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return response()->json(['exists' => $exists]);
     })->name('check.email');
 
+    
     Route::get('/settings/account', function () {
         return view('pages/settings/account');
     })->name('account');  

@@ -28,6 +28,7 @@
                                 $majors = DB::table('tbl_major')
                                     ->join('users', 'tbl_major.user_id', '=', 'users.id')
                                     ->select('tbl_major.*', 'users.fname as user_fname') // Use fname instead of name
+                                    ->where('tbl_major.user_id', '=', Auth::id()) // Filter by the authenticated user
                                     ->get();
                                 $i = 1; 
                             @endphp

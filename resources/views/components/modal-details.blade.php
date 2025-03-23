@@ -37,11 +37,19 @@
             <h4 class="text-xl text-gray-900 dark:text-gray-100 font-semibold">Schedule:</h4>
             <p class="mt-2 text-gray-700 dark:text-gray-300">
                 📅 Class schedule details go here...
-                <a href="{{ route('set-schedule-appointment', ['user' => $user->id]) }}">
-                    <x-success-button class="ms-3">
-                        {{ __('Set Appointment') }}
-                    </x-success-button>
-                </a>
+                @if (\DB::table('tbl_appointment')->where('tutor_id', $user->id)->exists())
+                    <a href="{{ route('view-schedule-appointment', ['user' => $user->id]) }}">
+                        <x-primary-button class="ms-3">
+                            {{ __('View Schedule') }}
+                        </x-primary-button>
+                    </a>
+                @else
+                    <a href="{{ route('set-schedule-appointment', ['user' => $user->id]) }}">
+                        <x-success-button class="ms-3">
+                            {{ __('Set Appointment') }}
+                        </x-success-button>
+                    </a>
+                @endif
             </p>
         </div>
 

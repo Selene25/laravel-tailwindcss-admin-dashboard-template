@@ -14,7 +14,6 @@
         <!-- Cards -->
         <div class="grid grid-cols-12 gap-6">
 
-          
 
             <!-- Bar chart (Direct vs Indirect) -->
             <x-systemadmin.systemadmin-card-01 />
