@@ -60,7 +60,7 @@ class AppointController extends Controller
             'created_at' => now(),
         ]);
 
-        return redirect()->route('set-schedule-appointment', ['user' => $request->tutor_id])
+        return redirect()->route('view-schedule-appointment', ['user' => $request->tutor_id])
             ->with('success', 'Appointment saved successfully.');
     }
 }

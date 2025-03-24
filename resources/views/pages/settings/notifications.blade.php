@@ -14,13 +14,7 @@
         <!-- Cards -->
         <div class="bg-white dark:bg-gray-800 shadow-xs rounded-xl">
             <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
-                <h2 class="font-semibold text-gray-800 dark:text-gray-100">Majors</h2>
-                <div class="grid grid-flow-col sm:auto-cols-max gap-2">
-                    <!-- Add view button -->
-                    <button id="viewBtnCard01" class="btn bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white cursor-pointer" title="View Details">
-                        <span class="max-xs:sr-only">View</span>
-                    </button>
-                </div>
+                <h2 class="font-semibold text-gray-800 dark:text-gray-100">Appointment Schedule</h2>
             </header>
 
             <div class="p-3">
@@ -29,9 +23,17 @@
                         <!-- Scrollable Table Container -->
                         <div class="max-h-80 overflow-y-auto">
                             <table class="table-auto w-full border-collapse">
+                                <colgroup>
+                                    <col width="5%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                </colgroup>
                                 <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50 text-left sticky top-0 z-10">
                                     <tr>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">#</th>
+                                        <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Name of Tutee</th>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Major</th>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Email</th>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Created At</th>
@@ -40,13 +42,13 @@
                                 <tbody class="text-sm divide-y divide-gray-200 dark:divide-gray-700 text-left">
                                     @php
                                         $appointments = DB::table('tbl_appointment')
-                                            ->join('users as tutee', 'tbl_appointment.tutee_id', '=', 'tutee.id')
-                                            ->join('users as tutor', 'tbl_appointment.tutor_id', '=', 'tutor.id')
+                                            ->join('users', 'tbl_appointment.tutee_id', '=', 'users.id')
                                             ->select(
                                                 'tbl_appointment.*', 
-                                                'tutee.fname as tutee_fname', 
-                                                'tutor.fname as tutor_fname'
+                                                'users.fname as tutee_fname', 
+                                                'users.lname as tutee_lname'
                                             )
+                                            ->where('tbl_appointment.tutor_id', '=', Auth::id())
                                             ->get();
                                         $i = 1; 
                                     @endphp
@@ -54,6 +56,7 @@
                                         @foreach ($appointments as $appointment)
                                             <tr>
                                                 <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $i++ }}</td> 
+                                                <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $appointment->tutee_fname }} {{ $appointment->tutee_lname }}</td> 
                                                 <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">
                                                     @php
                                                         try {
@@ -77,7 +80,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="4" class="text-center p-3 text-red-500 border-b border-gray-300 dark:border-gray-700">No data available.</td>
+                                            <td colspan="5" class="text-center p-3 text-red-500 border-b border-gray-300 dark:border-gray-700">No appointment available.</td>
                                         </tr>
                                     @endif
                                 </tbody>
