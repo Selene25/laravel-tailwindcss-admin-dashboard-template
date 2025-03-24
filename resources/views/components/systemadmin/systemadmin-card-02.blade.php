@@ -1,6 +1,6 @@
 <div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
 <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Customers</h2>
+        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Example Card #04</h2>
         <div class="grid grid-flow-col sm:auto-cols-max gap-2">
             <!-- Add view button -->
             <button id="viewBtnCard02" class="btn bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white">
@@ -17,7 +17,7 @@
 </div>
 
 <!-- XL Modal -->
-<div id="xlModalCard02" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+<div id="xlModalCard02" class="hidden fixed inset-0 dark:text-gray-100 dark:bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-11/12 xl:w-3/4 p-6">
         <header class="flex justify-between items-center border-b pb-4">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Customer Details</h2>

@@ -1,6 +1,6 @@
 <div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Income/Expenses</h2>
+        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Example Card #03</h2>
         <div class="grid grid-flow-col sm:auto-cols-max gap-2">
             <!-- Add view button -->
             <button class="btn bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white">

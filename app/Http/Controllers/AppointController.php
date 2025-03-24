@@ -48,7 +48,7 @@ class AppointController extends Controller
             'tutor_id' => 'required|exists:users,id',
             'sched' => 'required|date', // Ensure the date is valid
             'major' => 'required|string',
-            'emails' => 'nullable|string', // Validate the emails field
+            'type' => 'required|string|in:Solo,Group', // Validate the participation type
         ]);
 
         DB::table('tbl_appointment')->insert([
@@ -56,7 +56,7 @@ class AppointController extends Controller
             'tutor_id' => $request->tutor_id,
             'sched' => $request->sched, // Store the date as plain text
             'major' => Crypt::encryptString($request->major), // Encrypt the major
-            'emails' => $request->emails ? Crypt::encryptString($request->emails) : null, // Encrypt emails if not empty
+            'type' => $request->type, // Store the participation type
             'created_at' => now(),
         ]);
 

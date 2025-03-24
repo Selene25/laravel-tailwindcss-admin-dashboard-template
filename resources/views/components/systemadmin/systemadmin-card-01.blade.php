@@ -1,10 +1,10 @@
-<div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
+    <div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
         <h2 class="font-semibold text-gray-800 dark:text-gray-100">Majors</h2>
         <div class="grid grid-flow-col sm:auto-cols-max gap-2">
             <!-- Add view button -->
             <button id="viewBtnCard01" class="btn bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white cursor-pointer" title="View Details">
-                <span class="max-xs:sr-only">View</span>
+                <span class="max-xs:sr-only">Add Major</span>
             </button>
         </div>
     </header>

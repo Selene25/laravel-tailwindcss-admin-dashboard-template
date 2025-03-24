@@ -14,20 +14,35 @@
 
         <!-- Inline Modal (Hidden by Default) -->
         <div id="appointmentModal-{{ e($user->id) }}" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-2xl w-full">
-                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Confirm Appointment</h2>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-2xl w-full ">
+                <header class="border-b-1 border-gray-300 pb-1 -mx-6 px-6 mb-4">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Confirm Appointment</h2>
+                </header>
+                
                 <p class="text-gray-900 dark:text-gray-100">Selected Date: <span id="modalDate-{{ e($user->id) }}"></span></p>
 
                 <!-- New Field with Button -->
                 <div class="mt-4">
-                    <button type="button" class="px-4 py-2 bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white rounded-lg text-sm" onclick="toggleInputField()">Enable Group Session</button>
-
-                    <div id="emailContainer" class="flex flex-wrap items-center border border-gray-300 dark:border-gray-700 rounded-md shadow-sm px-3 py-2 mt-2 dark:bg-gray-900 dark:text-gray-100 hidden">
-                        <input type="text" id="emailInput" placeholder="Enter an email" class="flex-1 bg-transparent border-none outline-none py-1 px-2">
+                    <h2 class="text-lg text-gray-900 dark:text-gray-100">Select a Participation Type:</h2>
+                    <div class="radio-button-container">
+                        <div class="radio-button">
+                            <input type="radio" class="radio-button__input" id="Solo" name="participation_type" value="Solo" required>
+                            <label class="radio-button__label" for="Solo">
+                                <span class="radio-button__custom"></span>
+                                Solo
+                            </label>
+                        </div>
+                        <div class="radio-button">
+                            <input type="radio" class="radio-button__input" id="Group" name="participation_type" value="Group" required>
+                            <label class="radio-button__label" for="Group">
+                                <span class="radio-button__custom"></span>
+                                Group
+                            </label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="border border-gray-300 dark:border-gray-700 rounded-md shadow-sm h-12 relative mt-4">
+                <div class="border border-gray-300 dark:border-gray-700 rounded-md shadow-sm h-12 w-100 relative mt-4">
                     <button type="button" class="w-full h-full text-left px-3 dark:text-gray-300 flex items-center justify-between" 
                     id="dropdownMenuOffset" 
                     aria-labelledby="Select Major" 
@@ -53,6 +68,10 @@
                     @endif
                     </div>
                 </div>
+                <div id="toastMessagealert" class="hidden fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-md">
+                    Please select a date, at least one major, and a participation type.
+                </div>
+
                 <div class="flex justify-end mt-4">
                     <button class="px-4 py-2 bg-gray-500 text-white rounded-lg mr-2" onclick="closeModal('{{ $user->id }}')">Cancel</button>
                     <button class="px-4 py-2 bg-blue-600 text-white rounded-lg" onclick="saveAppointment('{{ $user->id }}')">Confirm</button>
@@ -70,75 +89,9 @@
         <input type="hidden" id="selectedDate-{{ e($user->id) }}" name="sched">
         <input type="hidden" name="tutor_id" value="{{ $user->id }}">
         <input type="hidden" id="selectedMajors" name="major">
-        <input type="hidden" id="emailList" name="emails"> <!-- New hidden input for emails -->
+        <input type="hidden" id="type" name="type"> <!-- New hidden input for emails -->
     </form>
 
-    <script>
-        function toggleInputField() {
-            document.getElementById("emailContainer").classList.toggle("hidden");
-            document.getElementById("emailInput").focus();
-        }
-
-        const emailInput = document.getElementById("emailInput");
-        const emailContainer = document.getElementById("emailContainer");
-
-        emailInput.addEventListener("keydown", function (event) {
-            if (event.key === "Enter" || event.key === ",") {
-                event.preventDefault();
-                addEmail(emailInput.value.trim());
-                emailInput.value = "";
-            }
-        });
-
-        function addEmail(email) {
-            if (email === "" || !validateEmail(email)) return;
-
-            // Check if email exists in the database
-            fetch(`{{ route('check.email') }}?email=${email}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.exists) {
-                        const emailTag = document.createElement("div");
-                        emailTag.className = "flex items-center bg-gray-800 text-gray-100 px-3 py-1 rounded-full m-1";
-
-                        const emailText = document.createElement("span");
-                        emailText.textContent = email;
-
-                        const removeButton = document.createElement("button");
-                        removeButton.innerHTML = "&times;";
-                        removeButton.className = "ml-2 text-gray-400 hover:text-red-500";
-                        removeButton.onclick = function () {
-                            emailContainer.removeChild(emailTag);
-                            updateEmailList(); // Update the hidden input
-                        };
-
-                        emailTag.appendChild(emailText);
-                        emailTag.appendChild(removeButton);
-                        emailContainer.insertBefore(emailTag, emailInput);
-
-                        updateEmailList(); // Update the hidden input
-                    } else {
-                        alert("There's no existing user with that email.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error checking email:", error);
-                    alert("An error occurred while checking the email.");
-                });
-        }
-
-        function updateEmailList() {
-            const emails = Array.from(emailContainer.children)
-                .filter(child => child !== emailInput)
-                .map(child => child.querySelector("span").textContent);
-
-            document.getElementById("emailList").value = emails.join(", ");
-        }
-
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-    </script>
 
     <script>
         function showToast(message) {
@@ -146,6 +99,16 @@
             toast.textContent = message;
             toast.classList.remove('hidden');
             
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        function showToastalert(message) {
+            let toast = document.getElementById('toastMessagealert');
+            toast.textContent = message;
+            toast.classList.remove('hidden');
+
             setTimeout(() => {
                 toast.classList.add('hidden');
             }, 3000); // Hide after 3 seconds
@@ -211,14 +174,14 @@
             const selectedMajors = Array.from(document.querySelectorAll('input[name="major[]"]:checked'))
                 .map(checkbox => checkbox.value)
                 .join(', ');
-            const emails = document.getElementById("emailList").value;
+            const participationType = document.querySelector('input[name="participation_type"]:checked')?.value;
 
-            if (selectedDate && selectedMajors) {
+            if (selectedDate && selectedMajors && participationType) {
                 document.getElementById('selectedMajors').value = selectedMajors;
-                document.getElementById('emailList').value = emails || ""; // Allow blank emails
+                document.getElementById('type').value = participationType; // Set participation type
                 document.getElementById('appointmentForm').submit();
             } else {
-                alert('Please select a date and at least one major.');
+                showToastalert('Please select a date, at least one major, and a participation type.');
             }
         }
     </script>

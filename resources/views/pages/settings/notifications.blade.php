@@ -26,7 +26,8 @@
                                 <colgroup>
                                     <col width="5%">
                                     <col width="10%">
-                                    <col width="10%">
+                                    <col width="5%">
+                                    <col width="15%">
                                     <col width="10%">
                                     <col width="10%">
                                 </colgroup>
@@ -34,9 +35,10 @@
                                     <tr>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">#</th>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Name of Tutee</th>
+                                        <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Type</th>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Major</th>
-                                        <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Email</th>
                                         <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Created At</th>
+                                        <th class="p-3 border-b border-gray-300 dark:border-gray-700 text-left bg-gray-50 dark:bg-gray-700">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-sm divide-y divide-gray-200 dark:divide-gray-700 text-left">
@@ -58,6 +60,9 @@
                                                 <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $i++ }}</td> 
                                                 <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ $appointment->tutee_fname }} {{ $appointment->tutee_lname }}</td> 
                                                 <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">
+                                                    {{ $appointment->type }}
+                                                </td>
+                                                <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">
                                                     @php
                                                         try {
                                                             echo \Illuminate\Support\Facades\Crypt::decryptString($appointment->major);
@@ -66,23 +71,18 @@
                                                         }
                                                     @endphp
                                                 </td>
-                                                <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">
-                                                    @php
-                                                        try {
-                                                            echo \Illuminate\Support\Facades\Crypt::decryptString($appointment->emails);
-                                                        } catch (\Exception $e) {
-                                                            echo $appointment->emails; // Display the raw value if decryption fails
-                                                        }
-                                                    @endphp
-                                                </td>
                                                 <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">{{ \Carbon\Carbon::parse($appointment->created_at)->format('F j, Y') }}</td>
+                                                <td class="p-3 border-b border-gray-300 dark:border-gray-700 text-left">
+                                                    <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg cursor-pointer">Edit</button>
+                                                    <button class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg cursor-pointer">View</button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5" class="text-center p-3 text-red-500 border-b border-gray-300 dark:border-gray-700">No appointment available.</td>
+                                            <td colspan="6" class="text-center p-3 text-red-500 border-b border-gray-300 dark:border-gray-700">No appointment available.</td>
                                         </tr>
-                                    @endif
+                                    @endif  
                                 </tbody>
                             </table>
                         </div>

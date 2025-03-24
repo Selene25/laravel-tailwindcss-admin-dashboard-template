@@ -53,6 +53,14 @@
                             </div>
                         </a>
                     </li>
+
+                    @php
+                        $mentorlearner = \DB::table('tbl_mentorlearner')
+                            ->where('user_id', auth()->id())
+                            ->value('mentorlearner');
+                    @endphp
+
+                    @if($mentorlearner == 1)
                     <!-- Tutor List -->
                     <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r @if(in_array(Request::segment(1), ['tutor-list'])){{ 'from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]' }}@endif">
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition @if(!in_array(Request::segment(1), ['tutor-list'])){{ 'hover:text-gray-900 dark:hover:text-white' }}@endif" href="{{ route('tutor-list') }}">
@@ -66,6 +74,7 @@
                             </div>
                         </a>
                     </li>
+                    @endif
                     <!-- Messages -->
                     <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r @if(in_array(Request::segment(1), ['messages'])){{ 'from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]' }}@endif">
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition @if(!in_array(Request::segment(1), ['messages'])){{ 'hover:text-gray-900 dark:hover:text-white' }}@endif" href="{{ route('messages') }}">

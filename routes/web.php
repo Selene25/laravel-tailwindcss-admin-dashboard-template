@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 
 Route::redirect('/', 'login');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function (): void {
 
     // Route for the getting the data feed
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/tutor-list', function () {
         return view('pages/tutor-list');
-    })->name('tutor-list');
+    })->name('tutor-list')->middleware('mentorlearner');
     
     Route::get('/view-schedule-appointment/{user}', [AppointController::class, 'viewScheduleAppointment'])->name('view-schedule-appointment');
     Route::get('/systemadmin/systemadmin-card-02', [AppointController::class, 'viewScheduleSysadmin'])->name('systemadmin-card-02'); 

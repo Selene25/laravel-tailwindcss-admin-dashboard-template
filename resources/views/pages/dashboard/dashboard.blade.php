@@ -28,7 +28,15 @@
             <x-dashboard.dashboard-card-12 />
 
             <!-- Card (Customers) -->
-            <x-dashboard.dashboard-card-10 />         
+            @php
+                $mentorlearner = \DB::table('tbl_mentorlearner')
+                    ->where('user_id', auth()->id())
+                    ->value('mentorlearner');
+            @endphp
+
+            @if($mentorlearner != 1)
+                <x-dashboard.dashboard-card-10 />
+            @endif
 
             <!-- Card (Recent Activity) -->
             <x-dashboard.dashboard-card-07 />

@@ -1,4 +1,4 @@
-<div class="col-span-full xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
+<div class="col-span-full xl:col-span-5 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
         <h2 class="font-semibold text-gray-800 dark:text-gray-100">My Schedule Appointment</h2>
     </header>
@@ -49,16 +49,20 @@
                             <tr>
                                 <td class="p-2 whitespace-nowrap">{{ $i++ }}</td> 
                                 <td class="p-2 whitespace-nowrap text-left">
-                                    {{ $appointment->tutee_fname }} {{ $appointment->tutee_lname }}
+                                    <div class="w-40 truncate">
+                                        {{ $appointment->tutee_fname }} {{ $appointment->tutee_lname }}
+                                    </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap text-left">
-                                    @php
-                                        try {
-                                            echo \Illuminate\Support\Facades\Crypt::decryptString($appointment->major);
-                                        } catch (\Exception $e) {
-                                            echo $appointment->major; // Display the raw value if decryption fails
-                                        }
-                                    @endphp
+                                    <div class="w-40 truncate" title="{{ \Illuminate\Support\Facades\Crypt::decryptString($appointment->major) }}">
+                                        @php
+                                            try {
+                                                echo \Illuminate\Support\Facades\Crypt::decryptString($appointment->major);
+                                            } catch (\Exception $e) {
+                                                echo $appointment->major; // Display raw value if decryption fails
+                                            }
+                                        @endphp
+                                    </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap text-left">{{ \Carbon\Carbon::parse($appointment->created_at)->format('F j, Y') }}</td>
                             </tr>
